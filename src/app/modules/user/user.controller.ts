@@ -1,56 +1,57 @@
 import asyncHandler from 'express-async-handler'
-import { queryMaker, querySelector } from 'mongoose-query-maker'
-import { userAuthRules } from './user.rule'
+import httpStatus from 'http-status'
+import { apiResponse } from '../../../shared'
+import { IUser } from './user.interface'
 import { UserService as service } from './user.service'
 
-const getAllData = asyncHandler(async (req, res) => {
-  const queryResult = queryMaker(req.query, req.user, userAuthRules)
-  const { meta, data } = await service.getAllData(queryResult)
+const queryOperation = asyncHandler(async (req, res) => {
+  const { data, meta } = await service.queryOperation()
 
-  res.status(200).json({
+  apiResponse<Partial<IUser>[]>(res, {
     success: true,
-    message: 'Users fetched successfull.',
-    meta,
-    data,
-    queryResult
-  })
-})
-
-const getData = asyncHandler(async (req, res) => {
-  const queryResult = querySelector(req.query, userAuthRules)
-  const { data } = await service.getData(req.params.id, queryResult)
-
-  res.status(200).json({
-    success: true,
+    status: httpStatus.OK,
     message: 'User fetched successfull.',
     data,
-    queryResult
+    meta
   })
 })
 
-const createData = asyncHandler(async (req, res) => {
-  const result = await service.createData(req.body)
+const getOperation = asyncHandler(async (req, res) => {
+  const { data } = await service.getOperation(req.params.id)
 
-  res.status(200).json({
+  apiResponse<Partial<IUser>>(res, {
     success: true,
-    message: 'User created successfull.',
-    data: result
+    status: httpStatus.OK,
+    message: 'User fetched successfull.',
+    data
   })
 })
 
-const login = asyncHandler(async (req, res) => {
-  const result = await service.login(req.body)
+const updateOperation = asyncHandler(async (req, res) => {
+  const { data } = await service.updateOperation(req.params.id, req.body)
 
-  res.status(200).json({
+  apiResponse<Partial<IUser>>(res, {
     success: true,
-    message: 'User login successfull.',
-    data: result
+    status: httpStatus.OK,
+    message: 'User updated successfull.',
+    data
+  })
+})
+
+const deleteOperation = asyncHandler(async (req, res) => {
+  const { data } = await service.deleteOperation(req.params.id)
+
+  apiResponse<Partial<IUser>>(res, {
+    success: true,
+    status: httpStatus.OK,
+    message: 'User deleted successfull.',
+    data
   })
 })
 
 export const UserController = {
-  getAllData,
-  getData,
-  createData,
-  login
+  queryOperation,
+  getOperation,
+  updateOperation,
+  deleteOperation
 }

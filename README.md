@@ -3,7 +3,7 @@
 #### dependencies
 
 ```bash
-yarn add express cors compression helmet dotenv bcrypt jsonwebtoken mongoose http-status zod express-async-handler multer uuid
+yarn add express cors compression helmet dotenv bcrypt jsonwebtoken mongoose mongoose-null-error http-status zod express-async-handler multer uuid
 ```
 
 #### devDependencies - step 01

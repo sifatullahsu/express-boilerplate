@@ -20,7 +20,7 @@ app.use(errorHandler)
 app.use((req: Request, res: Response) => {
   res.status(httpStatus.NOT_FOUND).json({
     success: false,
-    message: 'Not Found',
+    message: 'API Not Found',
     errorMessages: [
       {
         path: req.originalUrl,

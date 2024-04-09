@@ -1,12 +1,15 @@
 import { JwtPayload, Secret } from 'jsonwebtoken'
-import { Model } from 'mongoose'
-import { IRole } from '../../../interface/main'
+import { Model, Types } from 'mongoose'
+import { TRole } from '../../../global/types'
 
 export type IUser = {
+  _id: Types.ObjectId
   name: string
   email: string
   password: string
-  role: IRole
+  role: TRole
+  createdAt: Date
+  updatedAt: Date
 }
 
 export type IUserModel = {
