@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler'
 import httpStatus from 'http-status'
 import { apiResponse } from '../../../shared'
 import { IUser } from './user.interface'
+import { User } from './user.model'
 import { UserService as service } from './user.service'
 
 const queryOperation = asyncHandler(async (req, res) => {
@@ -10,7 +11,7 @@ const queryOperation = asyncHandler(async (req, res) => {
   apiResponse<Partial<IUser>[]>(res, {
     success: true,
     status: httpStatus.OK,
-    message: 'User fetched successfull.',
+    message: `${User.modelName} fetched successfully.`,
     data,
     meta
   })
@@ -22,7 +23,7 @@ const getOperation = asyncHandler(async (req, res) => {
   apiResponse<Partial<IUser>>(res, {
     success: true,
     status: httpStatus.OK,
-    message: 'User fetched successfull.',
+    message: `${User.modelName} fetched successfully.`,
     data
   })
 })
@@ -33,7 +34,7 @@ const updateOperation = asyncHandler(async (req, res) => {
   apiResponse<Partial<IUser>>(res, {
     success: true,
     status: httpStatus.OK,
-    message: 'User updated successfull.',
+    message: `${User.modelName} updated successfully.`,
     data
   })
 })
@@ -44,7 +45,7 @@ const deleteOperation = asyncHandler(async (req, res) => {
   apiResponse<Partial<IUser>>(res, {
     success: true,
     status: httpStatus.OK,
-    message: 'User deleted successfull.',
+    message: `${User.modelName} deleted successfully.`,
     data
   })
 })
