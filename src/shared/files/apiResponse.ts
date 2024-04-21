@@ -1,8 +1,9 @@
 import { Response } from 'express'
+import httpStatus from 'http-status'
 
 type TApiReponse<T> = {
-  success: boolean
-  status: number
+  success?: boolean
+  status?: number
   message: string
   meta?: {
     page?: number
@@ -14,8 +15,8 @@ type TApiReponse<T> = {
 
 export const apiResponse = <T>(res: Response, data: TApiReponse<T>): void => {
   const result: TApiReponse<T> = {
-    success: data.success,
-    status: data.status,
+    success: data.success || true,
+    status: data.status || httpStatus.OK,
     message: data.message,
     meta: data?.meta && {
       page: data?.meta?.page,
@@ -25,5 +26,5 @@ export const apiResponse = <T>(res: Response, data: TApiReponse<T>): void => {
     data: data.data
   }
 
-  res.status(data.status).json(result)
+  res.status(result.status!).json(result)
 }
