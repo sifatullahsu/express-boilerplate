@@ -24,16 +24,19 @@ async function main() {
     }
   }
 
-  process.on('uncaughtException', exitHandler)
-  process.on('unhandledRejection', exitHandler)
-
-  process.on('SIGTERM', () => {
+  const sigtermHandler = () => {
     console.log('SIGTERM received')
 
     if (server) {
-      server.close()
+      server.close(() => {
+        console.log('⚠️ Server has been closed')
+      })
     }
-  })
+  }
+
+  process.on('uncaughtException', exitHandler)
+  process.on('unhandledRejection', exitHandler)
+  process.on('SIGTERM', sigtermHandler)
 }
 
 main()

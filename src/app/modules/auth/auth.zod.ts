@@ -3,7 +3,7 @@ import { xPassword, xRole } from '../../../global/constant'
 
 const registration = z.object({
   body: z
-    .object({
+    .strictObject({
       name: z.string(),
       email: z.string().email(),
       role: z.enum(xRole as [string]),
@@ -17,7 +17,7 @@ const registration = z.object({
 })
 
 const login = z.object({
-  body: z.object({
+  body: z.strictObject({
     email: z.string().email(),
     password: z.string().regex(xPassword)
   })

@@ -16,9 +16,9 @@ const updateOperation = z.object({
   params: z.object({
     id: string().regex(xObjectId)
   }),
-  body: z.object({
+  body: z.strictObject({
     name: z.string().optional(),
-    email: z.string().optional(),
+    email: z.string().email().optional(),
     role: z.enum(xRole as [string]).optional(),
     password: z.string().regex(xPassword).optional()
   })
