@@ -1,6 +1,6 @@
 import { TCreate, TDelete, TGet, TQuery, TUpdate } from '../../../global/types'
-import { IUser as IType } from './user.interface'
-import { User as Model } from './user.model'
+import { IBlog as IType } from './blog.interface'
+import { Blog as Model } from './blog.model'
 
 const createOperation: TCreate<IType> = async data => {
   const result = await Model.create(data)
@@ -46,7 +46,7 @@ const deleteOperation: TDelete<IType> = async id => {
   return { data: result }
 }
 
-export const UserService = {
+export const BlogService = {
   createOperation,
   queryOperation,
   getOperation,

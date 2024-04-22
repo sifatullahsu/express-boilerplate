@@ -6,7 +6,7 @@ import config from '../../../config'
 import { xRole } from '../../../global/constant'
 import { IUser, IUserModel } from './user.interface'
 
-const UserSchema = new Schema<IUser, IUserModel>(
+const schema = new Schema<IUser, IUserModel>(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -19,29 +19,29 @@ const UserSchema = new Schema<IUser, IUserModel>(
   }
 )
 
-UserSchema.plugin(mongooseNullError)
+schema.plugin(mongooseNullError)
 
-UserSchema.statics.hashGenerator = async password => {
+schema.statics.hashGenerator = async password => {
   return await bcrypt.hash(password, Number(config.soltRounds))
 }
 
-UserSchema.statics.checkPassword = async (givenPassword, savedPassword) => {
+schema.statics.checkPassword = async (givenPassword, savedPassword) => {
   return await bcrypt.compare(givenPassword, savedPassword)
 }
 
-UserSchema.statics.createToken = (payload, secret, expireTime) => {
+schema.statics.createToken = (payload, secret, expireTime) => {
   return jwt.sign(payload, secret, { expiresIn: expireTime })
 }
 
-UserSchema.statics.verifyToken = (token, secret) => {
+schema.statics.verifyToken = (token, secret) => {
   return jwt.verify(token, secret) as JwtPayload
 }
 
-UserSchema.pre('save', async function () {
+schema.pre('save', async function () {
   this.password = await User.hashGenerator(this.password)
 })
 
-UserSchema.pre('updateOne', async function () {
+schema.pre('updateOne', async function () {
   const user = <Partial<IUser>>this.getUpdate()
 
   if (user?.password) {
@@ -49,4 +49,4 @@ UserSchema.pre('updateOne', async function () {
   }
 })
 
-export const User = model<IUser, IUserModel>('User', UserSchema)
+export const User = model<IUser, IUserModel>('User', schema)
