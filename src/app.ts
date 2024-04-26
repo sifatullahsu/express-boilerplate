@@ -1,5 +1,7 @@
+import compression from 'compression'
 import cors from 'cors'
 import express, { Application, Request, Response } from 'express'
+import helmet from 'helmet'
 import httpStatus from 'http-status'
 import { errorHandler, reqUser } from './app/middlewares'
 import AppRouter from './app/routes'
@@ -7,6 +9,8 @@ import AppRouter from './app/routes'
 const app: Application = express()
 
 app.use(cors())
+app.use(helmet())
+app.use(compression())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
