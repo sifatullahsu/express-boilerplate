@@ -53,8 +53,9 @@ export const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
 
   res.status(status).json({
     success: false,
+    status,
     message,
-    errorMessages,
+    error_messages: errorMessages,
     stack
   })
 }
