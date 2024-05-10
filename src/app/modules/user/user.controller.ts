@@ -5,12 +5,12 @@ import { User as Model } from './user.model'
 import { UserService as service } from './user.service'
 
 const queryOperation = asyncHandler(async (req, res) => {
-  const { data, meta } = await service.queryOperation()
+  const { data, pagination } = await service.queryOperation(req.query, req.user)
 
   apiResponse<Partial<IType>[]>(res, {
     message: `${Model.modelName} fetched successfully.`,
     data,
-    meta
+    pagination
   })
 })
 

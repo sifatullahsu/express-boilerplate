@@ -1,20 +1,26 @@
 import { JwtPayload } from 'jsonwebtoken'
+import { Query, QueryPagination } from 'mongoose-query-maker'
 
 export type TRole = 'admin' | 'subscriber'
 
-export type TJwtUser = JwtPayload & {
-  _id: string
-  email: string
-  role: TRole
-}
+export type TJwtUser =
+  | (JwtPayload & {
+      _id: string
+      email: string
+      role: TRole
+    })
+  | null
 
 export type TCreate<T> = (data: T) => Promise<{
   data: Partial<T> | null
 }>
 
-export type TQuery<T> = () => Promise<{
+export type TQuery<T> = (
+  query: Query,
+  user: TJwtUser
+) => Promise<{
   data: Partial<T>[] | null
-  meta: { page: number; limit: number; count: number }
+  pagination: QueryPagination
 }>
 
 export type TGet<T> = (id: string) => Promise<{
