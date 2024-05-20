@@ -22,7 +22,17 @@ const login = asyncHandler(async (req, res) => {
   })
 })
 
+const resetPassword = asyncHandler(async (req, res) => {
+  const { data } = await service.resetPassword(req.body)
+
+  apiResponse<Partial<IType>>(res, {
+    message: `${User.modelName} password reset successfully.`,
+    data
+  })
+})
+
 export const AuthController = {
   registration,
-  login
+  login,
+  resetPassword
 }

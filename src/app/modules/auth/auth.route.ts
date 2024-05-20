@@ -7,5 +7,6 @@ const router = Router()
 
 router.post('/registration', validateZod(zod.registration), controller.registration)
 router.post('/login', validateZod(zod.login), controller.login)
+router.post('/reset-password', validateZod(zod.resetPassword), controller.resetPassword)
 
 export const AuthRoute = router

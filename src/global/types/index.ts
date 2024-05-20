@@ -1,7 +1,8 @@
 import { JwtPayload } from 'jsonwebtoken'
-import { Query, QueryPagination } from 'mongoose-query-maker'
 
 export type TRole = 'admin' | 'subscriber'
+
+export type TTokenType = 'verify_number' | 'verify_email' | 'forgot_password'
 
 export type TJwtUser =
   | (JwtPayload & {
@@ -11,16 +12,26 @@ export type TJwtUser =
     })
   | null
 
+export type TPagination = {
+  current: number
+  total: number
+  next: number | null
+  prev: number | null
+  records: number
+}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type TReqQuery = Record<string, any>
+
 export type TCreate<T> = (data: T) => Promise<{
   data: Partial<T> | null
 }>
 
 export type TQuery<T> = (
-  query: Query,
+  query: TReqQuery,
   user: TJwtUser
 ) => Promise<{
   data: Partial<T>[] | null
-  pagination: QueryPagination
+  pagination: TPagination
 }>
 
 export type TGet<T> = (id: string) => Promise<{

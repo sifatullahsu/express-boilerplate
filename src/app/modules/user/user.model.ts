@@ -2,7 +2,6 @@ import bcrypt from 'bcrypt'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { Schema, model } from 'mongoose'
 import mongooseNullError from 'mongoose-null-error'
-import { MongooseQueryMaker } from 'mongoose-query-maker'
 import config from '../../../config'
 import { xRole } from '../../../global/constant'
 import { IUser, IUserModel } from './user.interface'
@@ -21,7 +20,6 @@ const schema = new Schema<IUser, IUserModel>(
 )
 
 schema.plugin(mongooseNullError)
-schema.plugin(MongooseQueryMaker)
 
 schema.statics.hashGenerator = async password => {
   return await bcrypt.hash(password, Number(config.soltRounds))

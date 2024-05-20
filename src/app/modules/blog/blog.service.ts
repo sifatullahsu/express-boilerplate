@@ -1,7 +1,7 @@
 import { TCreate, TDelete, TGet, TQuery, TUpdate } from '../../../global/types'
+import { paginationMaker } from '../../../shared'
 import { IBlog as IType } from './blog.interface'
 import { Blog as Model } from './blog.model'
-import { BlogRule as rule } from './blog.rule'
 
 const createOperation: TCreate<IType> = async data => {
   const result = await Model.create(data)
@@ -10,11 +10,13 @@ const createOperation: TCreate<IType> = async data => {
 }
 
 const queryOperation: TQuery<IType> = async (query, user) => {
-  const result = await Model.queryExecutor(query, user, rule.authRules)
+  console.log(query, user)
+
+  const result = await Model.find({}, '', {})
 
   return {
-    data: result.data,
-    pagination: result.pagination
+    data: result,
+    pagination: paginationMaker(1, 10, 100)
   }
 }
 

@@ -1,6 +1,5 @@
 import { Schema, model } from 'mongoose'
 import mongooseNullError from 'mongoose-null-error'
-import { MongooseQueryMaker } from 'mongoose-query-maker'
 import { IBlog, IBlogModel } from './blog.interface'
 
 const schema = new Schema<IBlog, IBlogModel>(
@@ -16,6 +15,5 @@ const schema = new Schema<IBlog, IBlogModel>(
 )
 
 schema.plugin(mongooseNullError)
-schema.plugin(MongooseQueryMaker)
 
 export const Blog = model<IBlog, IBlogModel>('Blog', schema)

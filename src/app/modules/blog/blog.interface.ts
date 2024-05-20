@@ -1,5 +1,4 @@
 import { Model, Types } from 'mongoose'
-import { TQueryExecutor } from 'mongoose-query-maker'
 
 export type IBlog = {
   _id: Types.ObjectId
@@ -10,6 +9,4 @@ export type IBlog = {
   updatedAt: Date
 }
 
-export type IBlogModel = {
-  queryExecutor: TQueryExecutor
-} & Model<IBlog>
+export type IBlogModel = Model<IBlog>

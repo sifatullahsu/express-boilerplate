@@ -1,12 +1,12 @@
 import { Response } from 'express'
 import httpStatus from 'http-status'
-import { QueryPagination } from 'mongoose-query-maker'
+import { TPagination } from '../../global/types'
 
 type TApiReponse<T> = {
   success?: boolean
   status?: number
   message: string
-  pagination?: QueryPagination
+  pagination?: TPagination
   data: Partial<T> | Partial<T>[] | null
 }
 
@@ -16,11 +16,11 @@ export const apiResponse = <T>(res: Response, data: TApiReponse<T>): void => {
     status: data.status || httpStatus.OK,
     message: data.message,
     pagination: data?.pagination && {
-      current: data?.pagination?.current,
-      total: data?.pagination?.total,
-      next: data?.pagination?.next,
-      prev: data?.pagination?.prev,
-      records: data?.pagination?.records
+      current: data.pagination.current,
+      total: data.pagination.total,
+      next: data.pagination.next,
+      prev: data.pagination.prev,
+      records: data.pagination.records
     },
     data: data.data
   }

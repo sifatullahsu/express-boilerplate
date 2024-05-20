@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { xPassword, xRole } from '../../../global/constant'
+import { xObjectId, xPassword, xRole } from '../../../global/constant'
 
 const registration = z.object({
   body: z
@@ -23,7 +23,29 @@ const login = z.object({
   })
 })
 
+const resetPassword = z.object({
+  body: z
+    .strictObject({
+      _id: z.string().regex(xObjectId),
+      password: z.string().regex(xPassword),
+      new_password: z.string().regex(xPassword),
+      confirm_new_password: z.string().regex(xPassword)
+    })
+    .refine(data => data.new_password === data.confirm_new_password, {
+      message: "Confirm passwords don't match",
+      path: ['confirm_new_password']
+    })
+})
+
+const forgotPassword = z.object({
+  body: z.strictObject({
+    email: z.string().email()
+  })
+})
+
 export const AuthZod = {
   registration,
-  login
+  login,
+  resetPassword,
+  forgotPassword
 }
